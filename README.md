@@ -1,75 +1,71 @@
-# React + TypeScript + Vite
+# People Counter
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple React application that allows counting people in two groups: **Students** and **Employees**.
+The app demonstrates the concept of **lifting state up** and using **props to control child components**.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Count **Students** and **Employees** separately
+- Prevent values from going below **0**
+- Prevent values from exceeding the **maximum limit**
+- Display the **total number of people**
+- Reusable counter component
 
-## React Compiler
+## Concept Demonstrated
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+### Single Source of Truth
 
-Note: This will impact Vite dev & build performances.
+The state for both counters is stored in the **parent component (`App`)**.
+Child components (`PeopleCounter`) receive data and functions via props.
 
-## Expanding the ESLint configuration
+This ensures:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Centralized state management
+- Predictable data flow
+- Better component reusability
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Lifting State Up
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Instead of each counter managing its own state, the state is lifted to the parent component.
+The parent then passes:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- the current value (`count`)
+- the maximum value (`max`)
+- functions to modify the state (`increment`, `decrement`)
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Technologies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- React
+- TypeScript
+- Functional Components
+- React Hooks (`useState`)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+
+## How It Works
+
+1. The **App component** stores the number of students and employees in state.
+2. The **PeopleCounter component** receives the values and functions as props.
+3. Clicking **+** or **-** triggers functions defined in the parent component.
+4. The **total number of people** is calculated dynamically.
+
+## Example Logic
+
+- Maximum number of people per group: **20**
+- Minimum value: **0**
+- Total = **students + employees**
+
+## Learning Purpose
+
+This project is useful for understanding:
+
+- Controlled components
+- State lifting
+- Props communication
+- Reusable UI components in React
+
+## Possible Improvements
+
+- Add input fields for manual values
+- Add reset button
+- Add dynamic number of counters
+- Persist data in localStorage
